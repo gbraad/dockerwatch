@@ -10,14 +10,22 @@ import (
 	"github.com/gbraad/dockerwatch/commands"
 )
 
+const (
+	intervalUsage   = "Interval of the watch"
+	intervalDefault = 1
+	endpointUsage   = "The host to connect to"
+	endpointDefault = "unix:///var/run/docker.sock"
+)
+
+var (
+	interval *int
+	endpoint *string
+)
+
 func main() {
 	parser := argparse.NewParser("dockerwatch", "Simple Docker container watcher")
-	intervalUsage := "Interval of the watch"
-	intervalDefault := 1
-	interval := parser.Int("n", "interval", &argparse.Options{Default: intervalDefault, Required: false, Help: intervalUsage})
-	endpointUsage := "The host to connect to"
-	endpointDefault := "unix:///var/run/docker.sock"
-	endpoint := parser.String("H", "host", &argparse.Options{Default: endpointDefault, Required: false, Help: endpointUsage})
+	interval = parser.Int("n", "interval", &argparse.Options{Default: intervalDefault, Required: false, Help: intervalUsage})
+	endpoint = parser.String("H", "host", &argparse.Options{Default: endpointDefault, Required: false, Help: endpointUsage})
 	execCmd := parser.NewCommand("exec", "Execute a command on a new container")
 
 	// Parse input
@@ -65,4 +73,3 @@ func Index(vs []string, t string) int {
 	}
 	return -1
 }
-
