@@ -7,6 +7,7 @@ import (
 
 	"github.com/akamensky/argparse"
 	"github.com/fsouza/go-dockerclient"
+	"github.com/gbraad/dockerwatch/commands"
 )
 
 func main() {
@@ -43,7 +44,7 @@ func main() {
 			if Index(conIDs, con.ID) < 0 {
 				conIDs = append(conIDs, con.ID)
 				if execCmd.Happened() {
-					err := Execute(*client, con.ID)
+					err := commands.Execute(*client, con.ID)
 					if err != nil {
 						fmt.Println("Err: ", err)
 					}
@@ -65,19 +66,3 @@ func Index(vs []string, t string) int {
 	return -1
 }
 
-func Execute(client docker.Client, containerID string) error {
-	execConfig := docker.CreateExecOptions{
-		Container:    containerID,
-		AttachStdin:  true,
-		AttachStdout: true,
-		AttachStderr: false,
-		Tty:          false,
-		Cmd:          []string{"touch", "/tmp/file"},
-		User:         "root",
-	}
-	execObj, err := client.CreateExec(execConfig)
-
-	client.StartExecNonBlocking(execObj.ID, docker.StartExecOptions{Detach: true})
-
-	return err
-}
