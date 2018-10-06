@@ -1,0 +1,13 @@
+FROM centos:7
+
+MAINTAINER Gerard Braad <me@gbraad.nl>
+
+ENV GOPATH /workspace
+RUN yum install -y gcc golang git
+
+COPY . /workspace/src/github.com/gbraad/dockerwatch
+WORKDIR /workspace/src/github.com/gbraad/dockerwatch
+
+RUN go get -v -d ./...
+RUN go test
+RUN go install -v ./cmd/dockerwatch

@@ -1,4 +1,4 @@
-package commands
+package dockerwatch
 
 import (
 	"github.com/fsouza/go-dockerclient"
