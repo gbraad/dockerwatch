@@ -1,8 +1,7 @@
 package cmd
 
 import (
-	"fmt"
-
+	"github.com/gbraad/dockerwatch/pkg/dockerwatch"
 	"github.com/spf13/cobra"
 )
 
@@ -11,10 +10,14 @@ func init() {
 }
 
 var execCmd = &cobra.Command{
-	Use:   "exec",
+	Use:   "exec [-- COMMAND]",
 	Short: "execute command",
 	Long:  "Execute command",
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("Hi")
+		runExec(args)
 	},
+}
+
+func runExec(arguments []string) {
+	MainLoop(arguments, dockerwatch.Execute)
 }
