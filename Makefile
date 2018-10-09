@@ -16,7 +16,7 @@ $(PREFIX)-%: build/Dockerfile.compile-%
 	docker cp $@-extract:/workspace/bin/dockerwatch ./dockerwatch
 	docker rm $@-extract || true
 	tar czvf ./out/$@-$(VERSION).tar.gz dockerwatch
-	mv ./hvkvp ./out/$@
+	mv ./dockerwatch ./out/$@
 	#docker rmi $@ || true
 
 clean:
