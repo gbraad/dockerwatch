@@ -38,7 +38,7 @@ func MainLoop(endpoint string, filter string, interval int, action func(docker.C
 		for _, con := range cons {
 			if Index(conIDs, con.ID) < 0 {
 				conIDs = append(conIDs, con.ID)
-				action(*client, con.ID, arguments)
+				err = action(*client, con.ID, arguments)
 				if err != nil {
 					fmt.Println("Err: ", err)
 				}

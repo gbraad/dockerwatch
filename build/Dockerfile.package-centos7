@@ -1,0 +1,16 @@
+FROM centos:7
+
+MAINTAINER Gerard Braad <me@gbraad.nl>
+
+RUN yum install -y rpm-build rpmdevtools
+
+RUN rpmdev-setuptree
+WORKDIR /root/rpmbuild/SPECS
+
+#$ docker build -t package-centos7
+#$ docker run --name=centos7 package-centos7
+#$ docker cp dockerwatch-centos-0.0.1.tar.gz centos7:/root/rpmbuild/SOURCES/dockerwatch-0.0.1.tar.gz
+#$ docker cp dockerwatch.spec centos7:/root/rpmbuild/SPECS
+#$ docker exec centos7 rpmbuild -bb /root/rpmbuild/SPECS/dockerwatch.spec
+#$ docker cp centos7:/root/rpmbuild/RPMS/x86_64/dockerwatch-0.0.1-1.el7.centos.x86_64.rpm ./out/
+

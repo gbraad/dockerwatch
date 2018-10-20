@@ -30,7 +30,7 @@
 %global import_path     %{provider_prefix}
 
 Name:           %{repo}
-Version:        0.0.1
+Version:        0.0.2
 Release:        2%{?dist}
 Summary:        dockerwatch: Execute commands on new containers
 License:        ASL 2.0
@@ -54,12 +54,8 @@ mkdir -p src/%{import_path}
 rmdir src/%{import_path}
 ln -s ../../../ src/%{import_path}
 
-%if ! 0%{?with_bundled}
 export GOPATH=$(pwd):%{gopath}
-%else
-echo "Unable to build from bundled deps. No Godeps nor vendor directory"
-exit 1
-%endif
+go get github.com/gbraad/dockerwatch/cmd/dockerwatch
 
 %gobuild -o bin/%{executable_name} %{import_path}/cmd/%{executable_name}
 
@@ -68,15 +64,14 @@ install -d -p %{buildroot}%{_bindir}
 install -m 755 bin/%{executable_name} %{buildroot}%{_bindir}
 
 %check
-%if 0%{?with_check}
-! %{buildroot}%{_bindir}/%{executable_name} --help
-%endif
 
 %files
 %doc README.md
-%license LICENSE
 %{_bindir}/%{executable_name}
 
 %changelog
+* Wed Oct 24 2018 Gerard Braad <me@gbraad.nl> 0.0.2
+- Working release
+
 * Wed Oct 10 2018 Gerard Braad <me@gbraad.nl> 0.0.1
 - Initial version
